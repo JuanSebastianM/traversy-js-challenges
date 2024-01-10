@@ -69,18 +69,112 @@ DoublyLinkedList.prototype.insertAt = function(targetIndex, data) {
     currentNode = currentNode.next;
   }
 
-  console.log({currentNode});
-
   newNode.next = currentNode.next;
   newNode.prev = currentNode;
+  currentNode.next.prev = newNode;
   currentNode.next = newNode;
 
-  console.log(currentNode.next);
+  console.log("Inserted node:",currentNode.next);
 
   this.length++;
 }
 
+DoublyLinkedList.prototype.get = function(targetIndex) {
+  if (targetIndex < 0 || targetIndex >= this.length) {
+    return null;
+  }
+
+  if (targetIndex === 0) {
+    return this.head;
+  }
+
+  if (targetIndex === this.length - 1) {
+    return this.tail;
+  }
+
+  let current = this.head;
+  let currentIndex = 0;
+
+  while (currentIndex !== targetIndex) {
+    current = current.next;
+
+    currentIndex++;
+  }
+
+  return current;
+}
+
+DoublyLinkedList.prototype.remove = function(targetIndex) {
+  if (targetIndex < 0 || targetIndex >= this.length) {
+    return null;
+  }
+
+  let targetNodeData = null;
+
+  if (targetIndex === 0) {
+    targetNodeData = this.head.data;
+
+    this.head = this.head.next;
+
+    if (this.head) {
+      this.head.prev = null;
+    } else {
+      this.tail = null;
+    }
+
+    this.length--;
+
+
+    return targetNodeData;
+  }
+
+  if (targetIndex === this.length - 1) {
+    targetNodeData = this.tail.data;
+
+    this.tail = this.tail.prev;
+    this.tail.next = null;
+
+    this.length--;
+
+    return targetNodeData;
+  }
+
+  let current = this.head;
+  let currentIndex = 0;
+
+  while (currentIndex !== targetIndex) {
+    current = current.next;
+
+    currentIndex++
+  }
+
+  // the prev Node of the current Node's next will now be the prev Node of the current one.
+  current.next.prev = current.prev;
+  // the next Node of the current Node's prev will now be the current Node's next.
+  current.prev.next = current.next;
+
+  return current.data;
+}
+
+DoublyLinkedList.prototype.contains = function(data) {
+  let current = this.head;
+
+  while (current) {
+    if (current.data === data) {
+      return true;
+    }
+
+    current = current.next;
+  }
+
+  return false;
+}
+
 DoublyLinkedList.prototype.printAll = function() {
+  if (this.length === 0) {
+    console.log("No items.");
+  }
+
   let current = this.head;
 
    while (current) {

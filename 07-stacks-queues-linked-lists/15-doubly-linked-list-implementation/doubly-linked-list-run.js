@@ -11,3 +11,16 @@ list.prepend(50)
 list.insertAt(5, 75)
 
 list.printAll();
+
+const dataToBeSearched = 400;
+
+console.log(`Contains ${dataToBeSearched}`, list.contains(dataToBeSearched));
+
+console.log('remove last item, index 6', list.remove(6));
+
+list.printAll();
+
+console.log(`Contains ${dataToBeSearched}`, list.contains(dataToBeSearched));
+
+console.log('get index',list.get(5));
+
